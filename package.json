@@ -1,0 +1,15 @@
+{
+  "name": "sd-image-catalog",
+  "version": "1.0.0",
+  "description": "Angular application for cataloguing Stable Diffusion images",
+  "main": "index.js",
+  "scripts": {
+    "ng": "ng",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@angular/cli": "^15.2.5"
+  }
+}

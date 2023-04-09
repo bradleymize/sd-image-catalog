@@ -1,0 +1,20 @@
+<div class="content">
+  <div class="drop-zone" appDnd (fileDropped)="onFileDropped($event)" (click)="fileDropRef.click()">
+    <div class="drop-zone__prompt" *ngIf="!fileList.length">
+      Drag and drop files here or click to select files
+    </div>
+    <input type="file" accept="image/*" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event)" />
+    <div class="preview-list">
+      <mat-card *ngFor="let item of fileList; let i = index" class="file-preview">
+        <mat-card-content>
+          {{item.file.name}}
+          <p><img [src]="item.src"></p>
+          <p>{{item.file.size / 1024 / 1024 | number:'1.0-1'}} MB</p>
+        </mat-card-content>
+        <mat-card-footer>
+          <button mat-button color="warn" (click)="deleteFile($event, i)">Remove</button>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+</div>
