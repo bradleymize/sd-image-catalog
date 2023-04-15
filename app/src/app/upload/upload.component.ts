@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import * as CryptoJS from "crypto-js";
+import {UploadService} from "./upload.service";
+import {HttpEventType} from "@angular/common/http";
+import {ProgressBarMode} from "@angular/material/progress-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-upload',
@@ -8,6 +12,14 @@ import * as CryptoJS from "crypto-js";
 })
 export class UploadComponent {
   fileList: any[] = [];
+  uploadInProgress = false;
+  progress = 0;
+  mode: ProgressBarMode = "determinate"
+
+  constructor(
+    private uploadService: UploadService,
+    private snackBar: MatSnackBar
+  ) { }
 
   onFileDropped($event: any) {
     this.prepareFilesList($event);
@@ -59,5 +71,47 @@ export class UploadComponent {
         console.log("Duplicate file detected, skipping file");
       }
     }
+  }
+
+  async upload() {
+    console.log("Upload:");
+    console.log(this.fileList);
+    this.uploadInProgress = true;
+    this.uploadService.uploadFiles(this.fileList).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          if (event.total) {
+            this.progress = Math.round((event.loaded / event.total) * 100);
+          } else {
+            this.mode = "indeterminate";
+          }
+        } else if (event.type === HttpEventType.Response) {
+          this.uploadInProgress = false;
+          this.fileList = [];
+          this.progress = 0;
+          this.mode = "determinate"
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        this.snackBar.open(error.message, "dismiss", {panelClass: ["blue-snackbar"]});
+        this.uploadInProgress = false;
+        this.progress = 0;
+        this.mode = "determinate"
+      }
+    });
+  }
+
+  async test() {
+    this.uploadService.test().subscribe({
+      next: res => {
+        console.log("Got response:");
+        console.log(res);
+      },
+      error: res => {
+        console.error("Got error:");
+        console.error(res);
+      }
+    });
   }
 }

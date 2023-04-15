@@ -17,4 +17,11 @@
       </mat-card>
     </div>
   </div>
+  <mat-progress-bar
+    [mode]="mode"
+    [value]="progress"
+    [ngStyle]="{'visibility': uploadInProgress ? 'visible' : 'hidden'}">
+  </mat-progress-bar>
+  <button mat-raised-button color="primary" (click)="upload()" class="upload-button">Upload</button>
+  <button mat-raised-button color="primary" (click)="test()">Ping</button>
 </div>

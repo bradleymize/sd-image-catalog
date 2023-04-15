@@ -1,3 +1,5 @@
 <mat-card>
-  Image Browser Content
+  <mat-card-content>
+    <img *ngFor="let img of imageList$ | async" [src]="'/api/image/' + img.id"/>
+  </mat-card-content>
 </mat-card>
