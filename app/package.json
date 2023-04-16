@@ -6,7 +6,8 @@
     "start": "ng serve",
     "start-win": "ng serve --host 0.0.0.0 --poll 5000",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "watch": "ng build --watch",
+    "watch-dev": "ng build --watch --configuration development",
     "watch-win": "ng build --watch --poll 5000",
     "test": "ng test"
   },

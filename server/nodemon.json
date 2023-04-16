@@ -1,7 +1,7 @@
 {
     "verbose": true,
     "ext": "js,json,html",
-    "watch": ["index.js"],
+    "watch": ["index.js","api/**/*.js"],
     "legacyWatch": true,
     "ignore": [
         "node_modules/**"
