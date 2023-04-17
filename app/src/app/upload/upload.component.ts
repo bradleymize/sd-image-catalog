@@ -12,6 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class UploadComponent {
   fileList: any[] = [];
+  selectedFiles: any[] = [];
   uploadInProgress = false;
   progress = 0;
   mode: ProgressBarMode = "determinate"
@@ -26,6 +27,7 @@ export class UploadComponent {
   }
 
   fileBrowseHandler(event: Event) {
+    console.log(event);
     const target = <HTMLInputElement>event.target;
     this.prepareFilesList(target.files);
   }
@@ -59,6 +61,7 @@ export class UploadComponent {
       const filestream = item.stream();
       const hash = await this.getHashFromStream(filestream);
       const existingHash = this.fileList.find(f => f.hash === hash);
+      console.log(`Existing Hash: ${existingHash}`);
 
       if (!existingHash) {
         const file = {
@@ -87,7 +90,9 @@ export class UploadComponent {
           }
         } else if (event.type === HttpEventType.Response) {
           this.uploadInProgress = false;
+          console.log(`Resetting fileList`);
           this.fileList = [];
+          this.selectedFiles = [];
           this.progress = 0;
           this.mode = "determinate"
         }

@@ -6,7 +6,7 @@ module.exports = function(app) {
     console.log("Loading image routes");
 
     app.get('/api/image', (req, res) => {
-        const sql = `SELECT id FROM images`; //TODO: limit / offset
+        const sql = `SELECT id, name FROM images`; //TODO: limit / offset
         db.all(sql, function(err, rows) {
             if (err) {
                 console.error(err.message);
@@ -17,15 +17,46 @@ module.exports = function(app) {
         });
     });
 
+    //TODO: Replace /api/imageThumbnail/:id with /api/image/:id/thumbnail
+    //TODO: Add /api/image/:id/info
     app.get('/api/image/:id', (req, res) => {
-        const sql = `SELECT type, size, data FROM images WHERE id = ?`;
+        const sql = `SELECT type, size, original FROM images WHERE id = ?`;
         db.get(sql, req.params.id, function(err, row) {
             if (err) {
                 console.error(err.message);
                 res.status(500).send();
             } else {
                 res.type(row.type);
-                res.send(row.data);
+                res.send(row.original);
+            }
+        });
+    });
+
+    app.delete('/api/image/:id', (req, res) => {
+        const sql = `DELETE FROM images WHERE id = ?`;
+        db.get(sql, req.params.id, function(err, row) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send();
+            } else {
+                res.json({"response": "deleted"});
+            }
+        });
+    });
+
+    app.get('/api/imageThumbnail/:id', (req, res) => {
+        const sql = `SELECT type, size, thumbnail FROM images WHERE id = ?`;
+        db.get(sql, req.params.id, function(err, row) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send();
+            } else {
+                if(row) {
+                    res.type(row.type);
+                    res.send(row.thumbnail);
+                } else {
+                    res.sendStatus(404);
+                }
             }
         });
     });

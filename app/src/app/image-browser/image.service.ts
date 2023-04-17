@@ -12,7 +12,7 @@ export class ImageService {
     return this.http.get('/api/image');
   }
 
-  get(id: number) {
-    return this.http.get(`/api/image/${id}`);
+  delete(id: number) {
+    return this.http.delete(`/api/image/${id}`);
   }
 }

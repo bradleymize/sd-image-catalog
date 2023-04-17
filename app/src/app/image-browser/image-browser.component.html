@@ -1,5 +1,25 @@
-<mat-card>
-  <mat-card-content>
-    <img *ngFor="let img of imageList$ | async" [src]="'/api/image/' + img.id"/>
-  </mat-card-content>
-</mat-card>
+<div class="image-browser">
+  <mat-card *ngFor="let img of imageList$ | async">
+    <mat-card-content>
+      <div>
+        <p class="image-thumbnail">
+          <img [src]="'/api/imageThumbnail/' + img.id" [alt]="img.name"/>
+        </p>
+        <p class="image-name">
+          {{img.name}}
+        </p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-icon-button color="primary" aria-label="Information">
+        <mat-icon fontSet="material-icons-outlined" class="button-info">info</mat-icon>
+      </button>
+      <a mat-icon-button color="primary" aria-label="Open in new window" [href]="'/api/image/' + img.id" target="_blank">
+        <mat-icon fontSet="material-icons-outlined" class="button-info1">open_in_new</mat-icon>
+      </a>
+      <button mat-icon-button color="warn" aria-label="Delete" (click)="delete(img.id)">
+        <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

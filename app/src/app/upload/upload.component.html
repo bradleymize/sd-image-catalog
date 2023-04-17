@@ -3,7 +3,7 @@
     <div class="drop-zone__prompt" *ngIf="!fileList.length">
       Drag and drop files here or click to select files
     </div>
-    <input type="file" accept="image/*" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event)" />
+    <input type="file" accept="image/*" #fileDropRef id="fileDropRef" multiple [value]="selectedFiles" (change)="fileBrowseHandler($event)" />
     <div class="preview-list">
       <mat-card *ngFor="let item of fileList; let i = index" class="file-preview">
         <mat-card-content>

@@ -2,9 +2,12 @@ const multer = require("multer");
 const async = require("async");
 const fs = require("fs");
 const sqlite3 = require('sqlite3').verbose();
+const {open} = require('sqlite');
+const exifr = require('exifr');
+const sharp = require('sharp');
 
-module.exports = function(app) {
-    const db = new sqlite3.Database('database.sqlite');
+module.exports = async function(app) {
+    const db = await open({filename: 'database.sqlite', driver: sqlite3.Database});
     const upload = multer({ dest: 'uploads/' });
     const queue = async.queue(processImage, 10);
 
@@ -33,22 +36,30 @@ module.exports = function(app) {
     });
 
     //TODO: Extract metadata from image
-    function processImage(file, callback) {
+    async function processImage(file, callback) {
         const { originalname, mimetype, size, path } = file;
         const bytes = fs.readFileSync(path);
         console.log(`Saving image ${originalname} to: ${path}`);
-        const data = [originalname, mimetype, size, bytes];
-        const sql = `INSERT INTO images (name, type, size, data) VALUES (?, ?, ?, ?)`;
+        const sql = `INSERT INTO images (name, type, size, original, thumbnail, metadata) VALUES (?, ?, ?, ?, ?, ?)`;
+        const metadata = await exifr.parse(bytes);
+        const thumbnail = await sharp(bytes).resize({
+            width: 200,
+            height: 200,
+            fit: "inside"
+        }).toBuffer();
+        const data = [originalname, mimetype, size, bytes, thumbnail, metadata?.parameters];
+        console.log(`Data:`);
+        console.log(data);
 
-        db.run(sql, data, function(err) {
-            if (err) {
-                console.error(err.message);
-                callback(`Error saving image ${originalname} to database`);
-            } else {
-                fs.unlinkSync(path);
-                console.log(`Deleted image ${originalname} from: ${path}`);
-                callback(null, `Image ${originalname} saved to database`);
-            }
-        });
+        try {
+            const result = await db.run(sql, data);
+            console.log(result);
+            fs.unlinkSync(path);
+            console.log(`Deleted image ${originalname} from: ${path}`);
+            return `Image ${originalname} saved to database`;
+        } catch(err) {
+            console.error(err.message);
+            throw new Error(`Error saving image ${originalname} to database`);
+        }
     }
 }
