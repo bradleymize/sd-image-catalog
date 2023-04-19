@@ -13,6 +13,12 @@ Angular application for cataloguing / indexing images for Stable Diffusion
 - If using windows, `npm run watch-win`, if using Linux `npm run watch`
 
 
+| OS      |  Server             | UI                  |
+|---------|---------------------|---------------------|
+| Windows |  `npm run dev`      | `npm run watch-win` |
+| Linux   |  `npm run dev`      | `npm run watch`     |
+
+
 # Running
 If Node is installed locally, run `ng serve` and access via http://localhost:4200
 
