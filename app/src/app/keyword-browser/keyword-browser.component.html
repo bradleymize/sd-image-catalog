@@ -1,0 +1,46 @@
+<div class="flex-container">
+  <mat-card [ngClass]="{'keyword-list': selectedKeyword}">
+    <mat-card-content>
+      <mat-chip-listbox aria-label="Keywords">
+        <mat-chip *ngFor="let item of keywordList$ | async" (click)="selectKeyword(item)">
+          {{item.keyword}}
+          <button matChipRemove [attr.aria-label]="'remove' + item.keyword">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </mat-chip-listbox>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="selectedKeyword" class="keyword-details">
+    <mat-card-header>Keyword: {{selectedKeyword.keyword}}</mat-card-header>
+    <mat-card-content class="flex-container">
+      <p class="flex-full-width">Positive Prompt:</p>
+      <mat-card *ngFor="let img of positiveKeywordUsage$ | async" class="dark-background">
+        <mat-card-content>
+          <div>
+            <p class="image-thumbnail">
+              <img [src]="'/api/imageThumbnail/' + img.image_id" [alt]="img.name"/>
+            </p>
+            <p class="image-name">
+              {{img.name}}
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <hr class="flex-full-width"/>
+      <p class="flex-full-width">Negative Prompt:</p>
+      <mat-card *ngFor="let img of negativeKeywordUsage$ | async" class="dark-background">
+        <mat-card-content>
+          <div>
+            <p class="image-thumbnail">
+              <img [src]="'/api/imageThumbnail/' + img.image_id" [alt]="img.name"/>
+            </p>
+            <p class="image-name">
+              {{img.name}}
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

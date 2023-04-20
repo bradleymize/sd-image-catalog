@@ -21,6 +21,10 @@ export class AppComponent {
         label: 'Upload',
         link: './upload',
         index: 1
+      }, {
+        label: 'Keywords',
+        link: './keywords',
+        index: 2
       }
     ];
   }

@@ -18,6 +18,13 @@ Angular application for cataloguing / indexing images for Stable Diffusion
 | Windows |  `npm run dev`      | `npm run watch-win` |
 | Linux   |  `npm run dev`      | `npm run watch`     |
 
+# Creating a new page
+- `npm run ng -- g m module-name --routing`
+- `npm run ng -- g c module-name -m module-name`
+- Add empty `''` route to module's routing module
+- Add lazily loaded route to `app-routing.module.ts` referencing the module
+- Add tab to `app.component.ts`
+
 
 # Running
 If Node is installed locally, run `ng serve` and access via http://localhost:4200
