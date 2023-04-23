@@ -6,9 +6,10 @@ const {createTables} = require('./database/index');
 async function init() {
     await createTables();
 
-    require('./api/index')(app);
-
+    app.use(express.json());
     app.use('/', express.static('www'));
+
+    require('./api/index')(app);
 
     app.get('*', function (request, response) {
         response.sendFile(path.resolve(__dirname, 'www', 'index.html'));

@@ -21,6 +21,7 @@ Angular application for cataloguing / indexing images for Stable Diffusion
 # Creating a new page
 - `npm run ng -- g m module-name --routing`
 - `npm run ng -- g c module-name -m module-name`
+- `npm run ng -- g s module-name/service-name`
 - Add empty `''` route to module's routing module
 - Add lazily loaded route to `app-routing.module.ts` referencing the module
 - Add tab to `app.component.ts`

@@ -25,6 +25,10 @@ export class AppComponent {
         label: 'Keywords',
         link: './keywords',
         index: 2
+      }, {
+        label: 'Prompt Template',
+        link: './prompt-template',
+        index: 2
       }
     ];
   }

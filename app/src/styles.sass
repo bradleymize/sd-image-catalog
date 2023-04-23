@@ -34,7 +34,13 @@
   -webkit-font-smoothing: antialiased
 
 .mat-mdc-snack-bar-container
-  &.blue-snackbar
+  &.warn-snackbar
     --mdc-snackbar-container-color: var(--color-warn)
+    --mat-mdc-snack-bar-button-color: #000
+    --mdc-snackbar-supporting-text-color: #000
+
+.mat-mdc-snack-bar-container
+  &.primary-snackbar
+    --mdc-snackbar-container-color: var(--color-primary)
     --mat-mdc-snack-bar-button-color: #000
     --mdc-snackbar-supporting-text-color: #000

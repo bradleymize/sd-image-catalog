@@ -99,7 +99,7 @@ export class UploadComponent {
       },
       error: (error) => {
         console.error(error);
-        this.snackBar.open(error.message, "dismiss", {panelClass: ["blue-snackbar"]});
+        this.snackBar.open(error.message, "dismiss", {panelClass: ["warn-snackbar"]});
         this.uploadInProgress = false;
         this.progress = 0;
         this.mode = "determinate"

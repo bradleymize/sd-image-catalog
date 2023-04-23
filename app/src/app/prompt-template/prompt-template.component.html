@@ -1,0 +1,53 @@
+<div class="container">
+  <button mat-raised-button color="primary" *ngIf="!addNew" (click)="addNew = !addNew">Add New Prompt Template</button>
+  <form *ngIf="addNew">
+    <mat-form-field appearance="fill" class="name">
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="name" required>
+      <mat-error *ngIf="name.invalid">Required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="description">
+      <mat-label>Description</mat-label>
+      <input matInput [formControl]="description">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="positivePrompt">
+      <mat-label>Positive Prompt</mat-label>
+      <textarea matInput [formControl]="positivePrompt"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="negativePrompt">
+      <mat-label>Negative Prompt</mat-label>
+      <textarea matInput [formControl]="negativePrompt"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="settings">
+      <mat-label>Settings</mat-label>
+      <textarea matInput [formControl]="settings"></textarea>
+    </mat-form-field>
+    <button mat-raised-button (click)="addNew = !addNew" class="cancel">Cancel</button>
+    <button mat-raised-button color="primary" class="save" (click)="save()">Save Prompt Template</button>
+  </form>
+
+  <mat-divider *ngIf="(promptTemplateList$ | async)?.length"></mat-divider>
+
+  <mat-accordion *ngIf="(promptTemplateList$ | async)?.length">
+    <mat-expansion-panel *ngFor="let item of promptTemplateList$ | async">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{item.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{item.description}}
+          <mat-icon fontSet="material-icons-outlined" class="copy" (click)="copy($event, item)">content_copy</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>
+        Positive Prompt:<br/>{{item.positivePrompt}}
+      </p>
+      <p>
+        Negative Prompt:<br/>{{item.negativePrompt}}
+      </p>
+      <p>
+        Settings:<br/>{{item.settings}}
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
